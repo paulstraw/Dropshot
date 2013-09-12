@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="description" content="Finely crafted, open source.">
+		<meta name="designer" content="Octopus Creative">
+		<meta name="developer" content="Octopus Creative">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+
+		<title>DropShot » Octopus Code</title>
+
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" media="screen, projection" href="index.css">
+		<link rel="stylesheet" media="screen, projection" href="dropshot.css">
+		<style type="text/css">
+			div.repo div.logo { background: #47B6DF; }
+
+			body { background: #DCE7ED; }
+
+			div#main { font-size: 16px; line-height: 26px; color: #565B62; }
+
+			div#main p { margin-bottom: 24px; }
+			div#main a { text-decoration: none; color: #BAC9E7; font-weight: 600; }
+
+			div#main code { font-size: 16px; padding: 2px 3px; background: #5A606F; color: #fff; border-radius: 4px; font-family: "Inconsolata", monospace; }
+
+			div#main pre { padding: 27px 27px 30px; background: #5A606F; color: #fff; border-radius: 4px; white-space: pre-wrap; max-width: 540px; line-height: 28px; margin-bottom: 30px; }
+			div#main pre code { padding: 0; background: transparent; border-radius: 0; margin-bottom: 18px; }
+
+			div#main section { width: 940px; margin: 90px auto; }
+			div#main section h2, div#main section h3 { font-size: 22px; margin-bottom: 18px; font-weight: 600; }
+
+			/*one column*/
+			@media only screen and (max-width: 639px) {
+				div#main section { width: 300px; }
+			}
+
+			/*two columns*/
+			@media only screen and (min-width: 640px) and (max-width: 959px) {
+				div#main section { width: 620px; }
+			}
+		</style>
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+		<script src="dropshot.js"></script>
+		<script>
+			$(document).ready(function() {
+				$('#first').dropShot({
+
+				});
+
+				// Boilerplate
+				var repoName = 'dropshot'
+
+				$.get('https://api.github.com/repos/octopuscreative/' + repoName, function(repo) {
+					var el = $('#top').find('.repo');
+
+					el.find('.stars').text(repo.watchers_count);
+					el.find('.forks').text(repo.forks_count);
+				});
+
+				var menu = $('#top').find('menu');
+
+				function positionMenuArrow() {
+					var current = menu.find('.current');
+
+					menu.find('.arrow').css('left', current.offset().left + (current.outerWidth() / 2));
+				}
+
+				$(window).on('resize', positionMenuArrow);
+
+				menu.on('click', 'a', function(e) {
+					var el = $(this),
+						href = el.attr('href'),
+						currentSection = $('#main').find('.current');
+
+					e.preventDefault();
+
+					menu.find('.current').removeClass('current');
+
+					el.addClass('current');
+
+					positionMenuArrow();
+
+					if (currentSection.length) {
+						currentSection.fadeOut(300).promise().done(function() {
+							$(href).addClass('current').fadeIn(300);
+						});
+					} else {
+						$(href).addClass('current').fadeIn(300);
+					}
+				});
+
+				menu.find('a:first').trigger('click')
+			});
+		</script>
+	</head>
+
+	<body>
+		<div id="top" class="group">
+			<header id="octopus">
+				<h2>
+					Octopus Creative
+					<a href="http://code.octopuscreative.com">Finely crafted, open source</a>
+				</h2>
+			</header>
+
+			<div class="repo group">
+				<a href="#" class="left">
+					<div class="logo">
+						<img src="logo.png">
+					</div>
+
+					<div class="description">
+						<h1>DropShot</h1>
+						<p>A better select for discerning web developers everywhere.</p>
+					</div>
+				</a>
+
+				<a href="https://github.com/octopuscreative/dropshot" class="github">
+					<span>GitHub</span>
+
+					<ul>
+						<li class="icon stars"></li>
+						<li class="icon forks"></li>
+					</ul>
+				</a>
+			</div>
+
+			<menu>
+				<div class="arrow"></div>
+
+				<ul>
+					<li><a href="#basic-usage">Basic Usage</a></li>
+					<li><a href="#updating-options">Updating Options</a></li>
+				</ul>
+			</menu>
+		</div>
+
+		<div id="main">
+			<section id="basic-usage">
+				<input type="file" id="first">
+
+				<h3>Basic Usage</h3>
+
+				<p>FancySelect is easy to use. Just target any <code>select</code> element on the page, and call <code>.fancySelect()</code> on it. If the select has an option with no value, it'll be used as a sort of placeholder text.</p>
+				<p>By default, FancySelect uses native selects and styles only the trigger on iOS devices. To override this, pass an object with forceiOS set to true when initializing it.</p>
+				<p>FancySelect also passes any classes specified in the select's <code>data-class</code> attribute, which you can use to style specific FancySelect instances.</p>
+			</section>
+			<section id="updating-options">
+				goodbye, world.
+			</section>
+		</div>
+	</body>
+</html>

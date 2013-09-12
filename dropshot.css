@@ -1,0 +1,69 @@
+div.dropshot-container {
+	width: 266px;
+	height: 266px;
+	border: 3px dashed #A2BDCB;
+	border-radius: 6px;
+	position: relative;
+	overflow: hidden;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-clip: content-box;
+
+	transition: background-color 120ms linear, background-image 120ms linear;
+	-webkit-transition: background-color 120ms linear, background-image 120ms linear;
+	-mos-transition: background-color 120ms linear, background-image 120ms linear;
+	-ms-transition: background-color 120ms linear, background-image 120ms linear;
+	-o-transition: background-color 120ms linear, background-image 120ms linear;
+}
+
+div.dropshot-container.dragging {
+	background-color: rgba(255, 255, 255, 0.25);
+}
+
+div.dropshot-container.empty:before {
+	content: "Drag & Drop";
+	background-position: center top;
+	background-repeat: no-repeat;
+	color: #A2BDCB;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+	display: block;
+	width: 150px;
+	margin-top: 72px;
+	position: absolute;
+	left: 50%;
+	margin-left: -75px;
+	height: 77px;
+	padding-top: 54px;
+	text-transform: uppercase;
+
+	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAlCAYAAAAA7LqSAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAUZJREFUeNpiWbj3DAONwX8kNiOtLGFiGCZg1COjHqGxR0KB+AoQ/4FmTmIxrQoHYvAfqJvDQJpYgDgEiFcNwUhgBmJtIF4J8hgoRuqHQcqqB3lEE0lAAFrWE4tpAYi1WwBJjwYTNIpg4OMQigVktzKPFr+jHhn1yKhHyALnCNT+6HLnBqtHPpCo/v1g9UgqEH8lUi1IXdpg9chdIK4kUm0VVP2gzexTgPgAATUHgXjyYC+1QJk4CYi/4JD/ApX/P9g9AgL3gbgMh1wFEN8bSvXIDCDeiyYG4k8bahUiLIl9hvI/Q0u1/0PNIyDwCIiTgfgx1BP3aWURCx1aD6uheLStNeqRUY+MemTUI8PTI3+R+AJDyO38SOy/oArxBgNkDJWqPTY6gxugGGkYBimrCeSRNUAcAcTX0ZLZYAf/oG4GuX0VQIABANnVVW4dtS9jAAAAAElFTkSuQmCC');
+}
+
+
+
+div.dropshot-container button {
+	z-index: 2;
+	position: relative;
+	padding: 9px 0;
+	font-size: 16px;
+	width: 216px;
+	font-weight: bold;
+	background: #47B6DF;
+	color: #fff;
+	border-radius: 4px;
+	margin: 198px auto 0;
+	display: block;
+	cursor: pointer;
+	text-transform: uppercase;
+}
+
+div.dropshot-container img {
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	max-width: 100%;
+}
