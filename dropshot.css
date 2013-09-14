@@ -21,25 +21,37 @@ div.dropshot-container.dragging {
 	background-color: rgba(255, 255, 255, 0.25);
 }
 
-div.dropshot-container.empty:before {
-	content: "Drag & Drop";
+div.dropshot-container:before {
 	background-position: center top;
 	background-repeat: no-repeat;
 	color: #A2BDCB;
 	font-size: 16px;
 	font-weight: bold;
 	text-align: center;
-	display: block;
-	width: 150px;
+	display: none;
+	width: 216px;
 	margin-top: 72px;
 	position: absolute;
 	left: 50%;
-	margin-left: -75px;
+	margin-left: -108px;
 	height: 77px;
 	padding-top: 54px;
 	text-transform: uppercase;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 
 	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAlCAYAAAAA7LqSAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAUZJREFUeNpiWbj3DAONwX8kNiOtLGFiGCZg1COjHqGxR0KB+AoQ/4FmTmIxrQoHYvAfqJvDQJpYgDgEiFcNwUhgBmJtIF4J8hgoRuqHQcqqB3lEE0lAAFrWE4tpAYi1WwBJjwYTNIpg4OMQigVktzKPFr+jHhn1yKhHyALnCNT+6HLnBqtHPpCo/v1g9UgqEH8lUi1IXdpg9chdIK4kUm0VVP2gzexTgPgAATUHgXjyYC+1QJk4CYi/4JD/ApX/P9g9AgL3gbgMh1wFEN8bSvXIDCDeiyYG4k8bahUiLIl9hvI/Q0u1/0PNIyDwCIiTgfgx1BP3aWURCx1aD6uheLStNeqRUY+MemTUI8PTI3+R+AJDyO38SOy/oArxBgNkDJWqPTY6gxugGGkYBimrCeSRNUAcAcTX0ZLZYAf/oG4GuX0VQIABANnVVW4dtS9jAAAAAElFTkSuQmCC');
+}
+
+div.dropshot-container.empty:before {
+	content: "Drag & Drop";
+	display: block;
+}
+
+div.dropshot-container.filename:before {
+	content: attr(data-filename);
+	display: block;
 }
 
 

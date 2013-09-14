@@ -31,6 +31,8 @@
 			div#main section { width: 940px; margin: 90px auto; }
 			div#main section h2, div#main section h3 { font-size: 22px; margin-bottom: 18px; font-weight: 600; }
 
+			div#main section div.dropshot-container { margin: 0 auto 60px; }
+
 			/*one column*/
 			@media only screen and (max-width: 639px) {
 				div#main section { width: 300px; }
@@ -46,9 +48,8 @@
 		<script src="dropshot.js"></script>
 		<script>
 			$(document).ready(function() {
-				$('#first').dropShot({
-
-				});
+				$('#first').dropShot();
+				$('#second').dropShot();
 
 				// Boilerplate
 				var repoName = 'dropshot'
@@ -114,7 +115,7 @@
 
 					<div class="description">
 						<h1>DropShot</h1>
-						<p>A better select for discerning web developers everywhere.</p>
+						<p>Drag. Drop. Browse. Preview. Upload.</p>
 					</div>
 				</a>
 
@@ -133,7 +134,7 @@
 
 				<ul>
 					<li><a href="#basic-usage">Basic Usage</a></li>
-					<li><a href="#updating-options">Updating Options</a></li>
+					<li><a href="#existing-files">Existing Files</a></li>
 				</ul>
 			</menu>
 		</div>
@@ -148,8 +149,8 @@
 				<p>By default, FancySelect uses native selects and styles only the trigger on iOS devices. To override this, pass an object with forceiOS set to true when initializing it.</p>
 				<p>FancySelect also passes any classes specified in the select's <code>data-class</code> attribute, which you can use to style specific FancySelect instances.</p>
 			</section>
-			<section id="updating-options">
-				goodbye, world.
+			<section id="existing-files">
+				<input type="file" id="second" data-existing-file-url="demo.png">
 			</section>
 		</div>
 	</body>

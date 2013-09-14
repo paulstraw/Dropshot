@@ -12,65 +12,71 @@ $.fn.dropShot = (opts) ->
     inp.addClass('snapified')
 
     setupDragHandlers = ->
-      trigger.on 'dragenter', ->
-        setTimeout ->
-          wrapper.addClass 'dragging'
-        , 0
+      # trigger.on 'dragenter', ->
+      #   setTimeout ->
+      #     wrapper.addClass 'dragging'
+      #   , 0
 
       # this is stupid, but seems to be necessary for the drop event to fire (at least in chrome)
-      wrapper.on 'dragover', (e) ->
-        e.preventDefault()
+      # wrapper.on 'dragover', (e) ->
+      #   e.preventDefault()
 
-      wrapper.on 'dragenter', ->
-        wrapper.addClass 'dragging'
+      # wrapper.on 'dragenter', ->
+      #   wrapper.addClass 'dragging'
 
-      wrapper.on 'dragleave', (e) ->
-        return if $(e.target).is 'button'
+      # wrapper.on 'dragleave', (e) ->
+      #   return if $(e.target).is 'button'
 
-        wrapper.removeClass 'dragging'
+      #   wrapper.removeClass 'dragging'
 
-      wrapper.on 'drop', (e) ->
-        e.preventDefault()
-        e.stopPropagation()
+      # wrapper.on 'drop', (e) ->
+      #   e.preventDefault()
+      #   e.stopPropagation()
 
-        wrapper.removeClass 'dragging'
+      #   wrapper.removeClass 'dragging'
 
-        console.log 'drop', e
+      #   handleFileChange(e.originalEvent.dataTransfer.files[0])
 
-        handleFileChange(e.originalEvent.dataTransfer.files[0])
+      #   return false
 
-        return false
+    setFilenameText = (newVal) ->
+      actualVal = newVal || if inp.val() then inp.val().substr(val.lastIndexOf('\\') + 1) else settings.placeholder
 
-    setTriggerText = ->
-      return if fileApiSupported
-      trigger.text(if inp.val() then inp.val().substr(val.lastIndexOf('\\') + 1) else settings.placeholder)
+      wrapper.addClass('filename').attr('data-filename', actualVal)
 
     handleFileChange = (file) ->
       if fileApiSupported
-        reader = new FileReader
+        imagey = /^image\/(png|jpg|jpeg|gif|svg(\+xml)?)$/.test file.type
 
-        reader.onload = do (file) ->
-          return unless file.type.indexOf('image/') == 0
-          console.log file
+        if imagey
+          reader = new FileReader
 
-          (evt) ->
-            newImgData = evt.target.result
+          reader.onload = do (file) ->
+            wrapper.removeClass('empty filename')
 
-            # if wrapper.find('img').length
-            #   wrapper.find('img').attr('src', newImgData)
-            # else
-            #   wrapper.prepend("""<img src="#{newImgData}">""")
-            wrapper.css('background-image', "url(#{newImgData})")
-            wrapper.removeClass('empty')
+            return (evt) ->
+              newImgData = evt.target.result
 
-        reader.readAsDataURL(file)
+              wrapper.css('background-image', "url(#{newImgData})")
+
+          reader.readAsDataURL(file)
+        else
+          wrapper.css('background-image', 'none')
+          setFilenameText(file.name)
       else # fallback for bad browsers
         wrapper.css('background-image', 'none')
-        setTriggerText()
+        setFilenameText()
 
     # hide the native file input
     inp.css
-      display: 'none'
+      opacity: 0
+      display: 'block'
+      width: '100%'
+      height: '100%'
+      position: 'absolute'
+      top: 0
+      left: 0
+      background: '#f00'
 
     # some global setup stuff
     inp.wrap '<div class="dropshot-container">'
@@ -84,8 +90,23 @@ $.fn.dropShot = (opts) ->
     unless inp.data('current-path')
       wrapper.addClass('empty')
 
-    # initialize trigger text for bad browsers
-    setTriggerText() unless fileApiSupported
+    # initialize filename/thumbnail
+    existing = inp.data('existing-file-url')
+    if existing
+      if fileApiSupported
+        existingIsImage = /\.(png|jpg|jpeg|gif|svg\+xml)$/.test existing
+
+        if existingIsImage
+          wrapper.removeClass('empty').css('background-image', "url(#{existing})")
+        else
+          setFilenameText(existing)
+      else
+        setFilenameText(existing)
+
+
+
+
+    # setFilenameText() unless fileApiSupported
 
     setupDragHandlers()
 
