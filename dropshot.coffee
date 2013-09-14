@@ -8,36 +8,8 @@ $.fn.dropShot = (opts) ->
 
   return this.each ->
     inp = $(this)
-    return if inp.hasClass('snapified') || inp[0].tagName != 'INPUT'
-    inp.addClass('snapified')
-
-    setupDragHandlers = ->
-      # trigger.on 'dragenter', ->
-      #   setTimeout ->
-      #     wrapper.addClass 'dragging'
-      #   , 0
-
-      # this is stupid, but seems to be necessary for the drop event to fire (at least in chrome)
-      # wrapper.on 'dragover', (e) ->
-      #   e.preventDefault()
-
-      # wrapper.on 'dragenter', ->
-      #   wrapper.addClass 'dragging'
-
-      # wrapper.on 'dragleave', (e) ->
-      #   return if $(e.target).is 'button'
-
-      #   wrapper.removeClass 'dragging'
-
-      # wrapper.on 'drop', (e) ->
-      #   e.preventDefault()
-      #   e.stopPropagation()
-
-      #   wrapper.removeClass 'dragging'
-
-      #   handleFileChange(e.originalEvent.dataTransfer.files[0])
-
-      #   return false
+    return if inp.hasClass('dropshotified') || !inp.is('input[type="file"]')
+    inp.addClass('dropshotified')
 
     setFilenameText = (newVal) ->
       actualVal = newVal || if inp.val() then inp.val().substr(val.lastIndexOf('\\') + 1) else settings.placeholder
@@ -67,6 +39,14 @@ $.fn.dropShot = (opts) ->
         wrapper.css('background-image', 'none')
         setFilenameText()
 
+    # some global setup stuff
+    inp.wrap '<div class="dropshot-container">'
+    wrapper = inp.parent()
+
+    wrapper.append """<button class="dropshot-trigger">#{settings.placeholder}</button>"""
+
+    trigger = wrapper.find '.dropshot-trigger'
+
     # hide the native file input
     inp.css
       opacity: 0
@@ -76,15 +56,8 @@ $.fn.dropShot = (opts) ->
       position: 'absolute'
       top: 0
       left: 0
-      background: '#f00'
-
-    # some global setup stuff
-    inp.wrap '<div class="dropshot-container">'
-    wrapper = inp.parent()
-
-    wrapper.append """<button class="dropshot-trigger">#{settings.placeholder}</button>"""
-
-    trigger = wrapper.find '.dropshot-trigger'
+      fontSize: wrapper.outerHeight() # we can't set width/height on file inputs in firefox
+      marginTop: -30 # another weird firefox thing
 
     # mark as empty if there's not already an image
     unless inp.data('current-path')
@@ -102,13 +75,6 @@ $.fn.dropShot = (opts) ->
           setFilenameText(existing)
       else
         setFilenameText(existing)
-
-
-
-
-    # setFilenameText() unless fileApiSupported
-
-    setupDragHandlers()
 
     trigger.on 'click', (e) ->
       e.preventDefault()

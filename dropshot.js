@@ -8,13 +8,12 @@
     isMobile = !!navigator.userAgent.match(/Mobile|webOS/i);
     fileApiSupported = window.File && window.FileReader && window.FileList && window.Blob;
     return this.each(function() {
-      var disabled, existing, existingIsImage, handleFileChange, inp, setFilenameText, setupDragHandlers, trigger, updateTriggerText, wrapper;
+      var disabled, existing, existingIsImage, handleFileChange, inp, setFilenameText, trigger, updateTriggerText, wrapper;
       inp = $(this);
-      if (inp.hasClass('snapified') || inp[0].tagName !== 'INPUT') {
+      if (inp.hasClass('dropshotified') || !inp.is('input[type="file"]')) {
         return;
       }
-      inp.addClass('snapified');
-      setupDragHandlers = function() {};
+      inp.addClass('dropshotified');
       setFilenameText = function(newVal) {
         var actualVal;
         actualVal = newVal || (inp.val() ? inp.val().substr(val.lastIndexOf('\\') + 1) : settings.placeholder);
@@ -44,6 +43,10 @@
           return setFilenameText();
         }
       };
+      inp.wrap('<div class="dropshot-container">');
+      wrapper = inp.parent();
+      wrapper.append("<button class=\"dropshot-trigger\">" + settings.placeholder + "</button>");
+      trigger = wrapper.find('.dropshot-trigger');
       inp.css({
         opacity: 0,
         display: 'block',
@@ -52,12 +55,9 @@
         position: 'absolute',
         top: 0,
         left: 0,
-        background: '#f00'
+        fontSize: wrapper.outerHeight(),
+        marginTop: -30
       });
-      inp.wrap('<div class="dropshot-container">');
-      wrapper = inp.parent();
-      wrapper.append("<button class=\"dropshot-trigger\">" + settings.placeholder + "</button>");
-      trigger = wrapper.find('.dropshot-trigger');
       if (!inp.data('current-path')) {
         wrapper.addClass('empty');
       }
@@ -74,7 +74,6 @@
           setFilenameText(existing);
         }
       }
-      setupDragHandlers();
       trigger.on('click', function(e) {
         e.preventDefault();
         return inp.trigger('click');
